@@ -94,8 +94,25 @@ public class JpaMain2 {
 
             List<String> resultList1 = em.createQuery(query, String.class).getResultList();
 
+            /**
+             * JPQL 기본함수
+             * CONCAT
+             * SUBSTRING
+             * TRIM
+             * LOWER
+             * UPPER
+             * LENGTH
+             * LOCATE
+             * ABS
+             * SQRT
+             * MOD
+             * SIZE
+             */
+            String queryJpqlBaseFunction = "select 'a' || 'b' From Member m";
+            String queryJpqlBaseFunction2 = "select concat('a', 'b') From Member m";
+            String queryJpqlBaseFunction3 = "select subString(2,3) From Member m"; // 2번째부터 3개를 잘라낸다.
+            String queryJpqlBaseFunction4 = "select locate('de', 'abcdefg') From Member m"; // 숫자가 나옴 4번째에 있네.
 
-            // 사용자 정의 함수 호출
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
