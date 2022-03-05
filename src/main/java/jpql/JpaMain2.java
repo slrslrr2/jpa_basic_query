@@ -1,9 +1,6 @@
 package jpql;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.util.List;
 
 public class JpaMain2 {
@@ -41,6 +38,7 @@ public class JpaMain2 {
             em.persist(team);
 
             Member member = new Member("gbitkim", 20);
+            member.setType(MemberType.ADMIN);
             member.setTeam(team);
             em.persist(member);
 
@@ -50,8 +48,8 @@ public class JpaMain2 {
 //            String jpql = "select m from Member m inner join m.team t where t.name = 'teamA'"; // 내부조인
 //            String jpql = "select m from Member m left join m.team t where t.name = 'teamA'"; // 외부조인
 //            String jpql = "select m from Member m, Team t where m.username=t.name"; // 세타조인
+//            String jpql = "select m from Member m LEFT JOIN m.team t on m.id = t.id"; // 외부조인
 
-            String jpql = "select m from Member m LEFT JOIN m.team t on m.id = t.id"; // 외부조인
             /**
              *
              select
@@ -65,10 +63,39 @@ public class JpaMain2 {
                 and ( member0_.id=team1_.id )
              */
 
-            List<Member> resultList = em.createQuery(jpql, Member.class).getResultList();
+            String jpql = "select m from Member m LEFT JOIN m.team t on m.id = t.id and m.type = :userTyoe"; // 외부조인
+            List<Member> resultList = em.createQuery(jpql, Member.class)
+                    .setParameter("userTyoe", MemberType.ADMIN).getResultList();
             for (Member member1 : resultList) {
                 System.out.println("member1 = " + member1);
             }
+
+            // 단순 CASE
+            String query = "select " +
+                            "case t.name " +
+                                "when '팀A' then '인센티브110%'" +
+                                "when '팀B' then '인센티브120%'" +
+                                "else '인센티브105%' END " +
+                            "from Team t";
+
+            // 조건 CASE
+            String query2 = "select" +
+                    "case when m.age <= 10 then '학생요금" +
+                    "when m.age >= 60 then '경로요금" +
+                    "else '일반요금' END" +
+                    "from Member m";
+
+            // NULL 값 채우기
+            String query3 = "select coalesce(m.username, 'NULL값이다') from Member m";
+
+            // 특정값이면 null 반환하고 나머지 본인이름
+            // gbitkim 이름을 숨길 때 사용
+            String query4 = "select NULLIF(m.username, 'gbitkim') from Member m";
+
+            List<String> resultList1 = em.createQuery(query, String.class).getResultList();
+
+
+            // 사용자 정의 함수 호출
             tx.commit();
         } catch (Exception e) {
             tx.rollback();

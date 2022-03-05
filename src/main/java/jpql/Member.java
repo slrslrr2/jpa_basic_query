@@ -12,6 +12,9 @@ public class Member {
 
     private int age;
 
+    @Enumerated(EnumType.STRING)
+    private MemberType type;
+
     public Member() {
 
     }
@@ -24,6 +27,18 @@ public class Member {
     public void setTeam(Team team){
         this.team = team;
         team.getMember().add(this);
+    }
+
+    public MemberType getType() {
+        return type;
+    }
+
+    public void setType(MemberType type) {
+        this.type = type;
+    }
+
+    public Team getTeam() {
+        return team;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
