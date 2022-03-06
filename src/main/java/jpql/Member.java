@@ -19,14 +19,15 @@ public class Member {
 
     }
 
-    public Member(String username, int age) {
+    public Member(String username, int age, MemberType type) {
         this.username = username;
         this.age = age;
+        this.type = type;
     }
 
     public void setTeam(Team team){
         this.team = team;
-        team.getMember().add(this);
+        team.getMembers().add(this);
     }
 
     public MemberType getType() {

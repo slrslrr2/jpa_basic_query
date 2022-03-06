@@ -37,7 +37,7 @@ public class JpaMain {
 
             // 2, 프로젝션(SELECT)
             ////////////////////////////////////// STEP 2-1. 프로젝션 영속성관리 표시 //////////////////////////////////////////////////////
-            Member member = new Member("lbitkim", 20);
+            Member member = new Member("lbitkim", 20, MemberType.ADMIN);
             em.persist(member);
             em.flush();
             em.clear();

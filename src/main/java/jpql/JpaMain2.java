@@ -33,12 +33,10 @@ public class JpaMain2 {
             **/
 
             // STEP1. 내부조인
-            Team team = new Team();
-            team.setName("teamA");
+            Team team = new Team("teamA");
             em.persist(team);
 
-            Member member = new Member("gbitkim", 20);
-            member.setType(MemberType.ADMIN);
+            Member member = new Member("gbitkim", 20, MemberType.USER);
             member.setTeam(team);
             em.persist(member);
 
