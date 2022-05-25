@@ -136,6 +136,12 @@ public class JpaMain4 {
              team.getMembers() = [Member{id=3, username='회원1', age=1}, Member{id=4, username='회원2', age=2}]
              team.getMembers() = [Member{id=5, username='회원3', age=3}]*/
 
+            // ----------------------------------------
+            /** 페치 조인의 한계
+            페치조인 대상에는 별칭을 줄 수 없다.
+            페치조인은 나와 연관된 애들을 모두 끌고오겠다는 느낌이기때문에,
+            **/
+
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
